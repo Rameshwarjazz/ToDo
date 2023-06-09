@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO List</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>TODO List</h1>
+
+    <% lists.forEach(function(list) { %>
+    <div class="list">
+      <h2><%= list.name %></h2>
+      <form action="/lists/delete" method="post">
+        <input type="hidden" name="listId" value="<%= list._id %>">
+        <button class="delete-button" type="submit">Delete List</button>
+      </form>
+
+      <form action="/lists/<%= list._id %>/tasks" method="post">
+        <input type="text" name="taskName" placeholder="New Task" required>
+        <button class="add-button" type="submit">Add Task</button>
+      </form>
+
+      <ul>
+        <% list.tasks.forEach(function(task) { %>
+        <li><%= task.name %>
+          <form action="/lists/<%= list._id %>/tasks/delete" method="post">
+            <input type="hidden" name="taskId" value="<%= task._id %>">
+            <button class="delete-button" type="submit">Delete Task</button>
+          </form>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+    <% }); %>
+
+    <form action="/lists" method="post">
+      <input type="text" name="listName" placeholder="New List" required>
+      <button class="add-button" type="submit">Add List</button>
+    </form>
+  </div>
+</body>
+
+</html>
